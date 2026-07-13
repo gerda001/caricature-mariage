@@ -18,7 +18,28 @@ export default function Gallery() {
 
   return (
     <main style={{ maxWidth: 900, margin: '0 auto', padding: '32px 20px 60px' }}>
-      <div className="no-print" style={{ textAlign: 'center', marginBottom: 24 }}>
+      <div className="no-print" style={{ textAlign: 'center', marginBottom: 24, position: 'relative' }}>
+        <a
+          href="/"
+          title="Retour"
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: 40,
+            height: 40,
+            borderRadius: '50%',
+            background: '#fffdfb',
+            border: '1px solid #d8c9b0',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: 18,
+            textDecoration: 'none',
+          }}
+        >
+          📷
+        </a>
         <h1 style={{ fontWeight: 400 }}>Galerie des invités</h1>
         <p style={{ color: '#8a8078', fontSize: 14 }}>
           {urls.length} caricature{urls.length > 1 ? 's' : ''} créée
