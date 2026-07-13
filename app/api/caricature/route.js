@@ -2,6 +2,7 @@ import { put } from '@vercel/blob';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
+export const dynamic = 'force-dynamic';
 
 // Le prompt qui définit le style : aquarelle douce, comme les illustrations
 // "Galentine's" et "boule à facettes" fournies par les mariés.
