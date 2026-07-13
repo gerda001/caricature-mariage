@@ -2,8 +2,8 @@
 
 import { useState, useRef } from 'react';
 
-const COUPLE_NAMES = 'Pacifique & Gloria'; // <-- Changez ce nom
-const WEDDING_DATE = 'O8 Août 2026'; // <-- Changez cette date
+const COUPLE_NAMES = 'Johan & Liz'; // <-- Changez ce nom
+const WEDDING_DATE = '18 Juin 2026'; // <-- Changez cette date
 
 export default function Home() {
   const [preview, setPreview] = useState(null);
@@ -62,8 +62,31 @@ export default function Home() {
         margin: '0 auto',
         padding: '32px 20px 60px',
         textAlign: 'center',
+        position: 'relative',
       }}
     >
+      <a
+        href="/gallery"
+        title="Voir la galerie"
+        style={{
+          position: 'absolute',
+          top: 20,
+          right: 20,
+          width: 40,
+          height: 40,
+          borderRadius: '50%',
+          background: '#fffdfb',
+          border: '1px solid #d8c9b0',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: 18,
+          textDecoration: 'none',
+        }}
+      >
+        🖼️
+      </a>
+
       <p style={{ letterSpacing: 3, textTransform: 'uppercase', fontSize: 12, color: '#a98f6b' }}>
         {WEDDING_DATE}
       </p>
