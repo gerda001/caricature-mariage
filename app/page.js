@@ -2,8 +2,8 @@
 
 import { useState, useRef } from 'react';
 
-const COUPLE_NAMES = 'Johan & Liz'; // <-- Changez ce nom
-const WEDDING_DATE = '18 Juin 2026'; // <-- Changez cette date
+const COUPLE_NAMES = 'Pacifique & Gloria'; // <-- Changez ce nom
+const WEDDING_DATE = 'O8 Août 2026'; // <-- Changez cette date
 
 export default function Home() {
   const [preview, setPreview] = useState(null);
