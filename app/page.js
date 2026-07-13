@@ -47,6 +47,30 @@ export default function Home() {
     }
   }
 
+  // Fonction pour télécharger/partager proprement sur iPhone
+  async function handleShare() {
+    if (!resultUrl) return;
+    try {
+      const response = await fetch(resultUrl);
+      const blob = await response.blob();
+      const fileToShare = new File([blob], 'caricature.jpg', { type: 'image/jpeg' });
+
+      if (navigator.share && navigator.canShare({ files: [fileToShare] })) {
+        await navigator.share({
+          files: [fileToShare],
+          title: 'Ma Caricature',
+          text: 'Regarde ma caricature de mariage ! ✨',
+        });
+      } else {
+        // Fallback si le navigateur ne supporte pas le partage natif (ex: sur PC)
+        window.open(resultUrl, '_blank');
+      }
+    } catch (err) {
+      console.error("Erreur de partage/téléchargement:", err);
+      window.open(resultUrl, '_blank');
+    }
+  }
+
   function reset() {
     setFile(null);
     setPreview(null);
@@ -179,9 +203,9 @@ export default function Home() {
             style={{ width: '100%', borderRadius: 16, marginBottom: 16 }}
           />
           <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a href={resultUrl} download style={primaryBtn}>
-              Télécharger
-            </a>
+            <button onClick={handleShare} style={primaryBtn}>
+              Télécharger / Partager 📱
+            </button>
             <button onClick={reset} style={secondaryBtn}>
               Refaire une photo
             </button>
