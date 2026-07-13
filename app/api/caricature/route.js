@@ -26,7 +26,8 @@ Style rules:
 - Keep only the general hair color, skin tone, and outfit colors recognizable — the
   goal is an artistic impression of the people, not a likeness-accurate rendering.
 
-Square format, print-ready, high resolution.`;
+Portrait format matching a 10x15cm postcard print (aspect ratio 2:3), print-ready,
+high resolution.`;
 
 export async function POST(request) {
   try {
@@ -70,6 +71,9 @@ export async function POST(request) {
           ],
           generationConfig: {
             responseModalities: ['IMAGE'],
+            imageConfig: {
+              aspectRatio: '2:3',
+            },
           },
         }),
       }
