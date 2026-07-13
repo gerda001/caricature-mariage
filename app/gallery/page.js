@@ -147,7 +147,12 @@ export default function Gallery() {
       {/* Styles globaux gérant l'affichage écran et la mise en page d'impression papier */}
       <style jsx global>{`
         @media print {
-          /* 1. On cache tout ce qui ne doit pas être imprimé */
+          /* Enlever les marges de la page et masquer les en-têtes/pieds de page (URL, Date) */
+          @page {
+            margin: 0 !important;
+          }
+
+          /* Cacher tout ce qui ne doit pas être imprimé */
           .no-print, 
           .gallery-item.not-selected {
             display: none !important;
@@ -159,24 +164,32 @@ export default function Gallery() {
             padding: 0 !important;
           }
 
-          /* 2. On casse la grille pour forcer la mise en page séquentielle */
+          /* On casse la grille pour forcer la mise en page séquentielle */
           .gallery-grid {
             display: block !important;
           }
 
-          /* 3. Configuration de chaque photo sélectionnée pour l'imprimante photo */
+          /* Configuration de chaque photo sélectionnée */
           .gallery-item.selected {
             border: none !important;
             padding: 0 !important;
             margin: 0 !important;
-            page-break-after: always; /* Force un saut de page après chaque image pour la SELPHY */
-            break-after: page;
+            display: flex !important;
+            justifyContent: center;
+            alignItems: center;
+            height: 100vh; /* Prend toute la feuille */
+          }
+
+          /* CORRECTIF : On saute de page UNIQUEMENT s'il y a une autre image sélectionnée après */
+          .gallery-item.selected:not(:last-child) {
+            page-break-after: always !important;
+            break-after: page !important;
           }
 
           .gallery-item.selected img {
-            width: 100% !important;
-            max-height: 100vh;
-            object-fit: contain;
+            max-width: 100% !important;
+            max-height: 100vh !important;
+            object-fit: contain !important;
           }
         }
       `}</style>
