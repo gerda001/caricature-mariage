@@ -144,52 +144,62 @@ export default function Gallery() {
         })}
       </div>
 
-      {/* Styles globaux gérant l'affichage écran et la mise en page d'impression papier */}
+      {/* Configuration stricte pour le format Canon SELPHY 10cm x 14.8cm */}
       <style jsx global>{`
         @media print {
-          /* Enlever les marges de la page et masquer les en-têtes/pieds de page (URL, Date) */
+          /* On force la taille du papier au format carte postale Canon (Portrait) */
           @page {
+            size: 10cm 14.8cm;
+            margin: 0mm !important;
+          }
+          
+          html, body {
+            background: #fff !important;
             margin: 0 !important;
+            padding: 0 !important;
+            width: 10cm !important;
+            height: 14.8cm !important;
           }
 
-          /* Cacher tout ce qui ne doit pas être imprimé */
+          /* Masquage des éléments inutiles */
           .no-print, 
           .gallery-item.not-selected {
             display: none !important;
           }
-          
-          body, main {
-            background: white !important;
+
+          .gallery-grid {
+            display: block !important;
             margin: 0 !important;
             padding: 0 !important;
           }
 
-          /* On casse la grille pour forcer la mise en page séquentielle */
-          .gallery-grid {
-            display: block !important;
-          }
-
-          /* Configuration de chaque photo sélectionnée */
+          /* Conteneur calé au millimètre près */
           .gallery-item.selected {
             border: none !important;
             padding: 0 !important;
             margin: 0 !important;
+            width: 10cm !important;
+            height: 14.8cm !important;
             display: flex !important;
             justifyContent: center;
             alignItems: center;
-            height: 100vh; /* Prend toute la feuille */
+            page-break-inside: avoid !important;
+            break-inside: avoid !important;
           }
 
-          /* CORRECTIF : On saute de page UNIQUEMENT s'il y a une autre image sélectionnée après */
+          /* Gestion des sauts de page inter-photos */
           .gallery-item.selected:not(:last-child) {
             page-break-after: always !important;
             break-after: page !important;
           }
 
+          /* L'image s'adapte au format carte postale sans baver sur les côtés */
           .gallery-item.selected img {
-            max-width: 100% !important;
-            max-height: 100vh !important;
-            object-fit: contain !important;
+            width: 100% !important;
+            height: 100% !important;
+            display: block !important;
+            margin: 0 !important;
+            object-fit: contain !important; /* Ajuste l'image pour qu'elle tienne parfaitement dans les 10x14.8cm */
           }
         }
       `}</style>
