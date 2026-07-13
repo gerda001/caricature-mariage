@@ -6,15 +6,27 @@ export const dynamic = 'force-dynamic';
 
 // Le prompt qui définit le style : aquarelle douce, comme les illustrations
 // "Galentine's" et "boule à facettes" fournies par les mariés.
-const STYLE_PROMPT = `Transform the people in this photo into an elegant watercolor
-illustration, in the style of a modern wedding stationery artist: soft, translucent
-watercolor washes, delicate thin ink or fine-line outlines, loose and painterly
-brushstrokes, a warm pastel color palette (blush pink, soft gold, sage green, dusty blue).
-Keep clothing colors, hair color and general likeness close to the original photo, but
-render everything in this hand-painted watercolor style, not a cartoon or comic style,
-not a bold-outline sketch. Use a plain soft off-white background with no hard edges.
-The final image should look like a page from a romantic wedding illustration book,
-square format, print-ready, high resolution.`;
+const STYLE_PROMPT = `Reimagine the people in this photo as a loose, hand-painted watercolor
+illustration, in the style of a modern wedding stationery artist. This must NOT look
+like a filtered photo — it must look like an artist looked at the photo once and then
+painted their impression of it from memory.
+
+Style rules:
+- Simplify facial features into soft, minimal shapes: small dot or short-line eyes,
+  a light suggestion of a nose, a simple curved mouth. Do not render realistic eyes,
+  pores, wrinkles, or photographic skin texture.
+- Use loose, imprecise, imperfect brush strokes with visible watercolor bleed and
+  paper texture. Edges should be soft and slightly uneven, never crisp or vector-like.
+- Slightly exaggerate proportions in a charming way (slightly bigger head-to-body
+  ratio, simplified hands), like an editorial fashion illustration, not a portrait.
+- Flatten and simplify clothing into a few solid color shapes rather than folds and
+  realistic fabric detail.
+- Warm pastel palette (blush pink, soft gold, sage green, dusty blue), plain soft
+  off-white background, no hard shadows.
+- Keep only the general hair color, skin tone, and outfit colors recognizable — the
+  goal is an artistic impression of the people, not a likeness-accurate rendering.
+
+Square format, print-ready, high resolution.`;
 
 export async function POST(request) {
   try {
