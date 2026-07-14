@@ -5,6 +5,45 @@ import { useState, useRef } from 'react';
 const COUPLE_NAMES = 'Johan & Liz'; // <-- Changez ce nom
 const WEDDING_DATE = '18 Juin 2026'; // <-- Changez cette date
 
+// Redimensionne et compresse la photo côté téléphone avant l'envoi,
+// pour éviter les erreurs "fichier trop volumineux" avec les photos
+// très haute résolution des iPhone récents.
+function resizeImage(file, maxDimension = 1600, quality = 0.85) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const objectUrl = URL.createObjectURL(file);
+    img.onload = () => {
+      let { width, height } = img;
+      if (width > height && width > maxDimension) {
+        height = Math.round((height * maxDimension) / width);
+        width = maxDimension;
+      } else if (height > maxDimension) {
+        width = Math.round((width * maxDimension) / height);
+        height = maxDimension;
+      }
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      URL.revokeObjectURL(objectUrl);
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) {
+            reject(new Error('Compression impossible'));
+            return;
+          }
+          resolve(blob);
+        },
+        'image/jpeg',
+        quality
+      );
+    };
+    img.onerror = reject;
+    img.src = objectUrl;
+  });
+}
+
 export default function Home() {
   const [preview, setPreview] = useState(null);
   const [file, setFile] = useState(null);
@@ -27,8 +66,9 @@ export default function Home() {
     setStatus('loading');
     setErrorMsg('');
     try {
+      const compressed = await resizeImage(file);
       const formData = new FormData();
-      formData.append('photo', file);
+      formData.append('photo', compressed, 'photo.jpg');
       const res = await fetch('/api/caricature', {
         method: 'POST',
         body: formData,
