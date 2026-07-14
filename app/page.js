@@ -11,9 +11,10 @@ const STYLES = [
   { key: 'watercolor', label: 'Aquarelle douce', emoji: '🎨' },
   { key: 'ink_sketch', label: 'Croquis romantique', emoji: '✏️' },
   { key: 'comic_color', label: 'BD colorée', emoji: '💥' },
-  { key: 'vintage', label: 'Vintage rétro', emoji: '📻' },
-  { key: 'line_art', label: 'Ligne continue', emoji: '➰' },
-  { key: 'pop_art', label: 'Pop art', emoji: '🌈' },
+  { key: 'vintage', label: 'Vintage illustré', emoji: '📻' },
+  { key: 'feerique', label: 'Univers féérique', emoji: '✨' },
+  { key: 'royaume_africain', label: 'Royaume africain', emoji: '👑' },
+  { key: 'caricature_exageree', label: 'Caricature mignonne', emoji: '😄' },
 ];
 
 // Redimensionne et compresse la photo côté téléphone avant l'envoi,
