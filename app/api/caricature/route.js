@@ -47,27 +47,44 @@ only the general hair color, skin tone and outfit colors recognizable. This shou
 like a fun modern caricature illustration, not a photo. Portrait format matching a
 10x15cm postcard print (aspect ratio 2:3), print-ready, high resolution.`,
 
-  vintage: `Reimagine the people in this photo as a vintage retro illustration from the
-1970s, in the style of an old faded postcard: muted desaturated colors (warm mustard,
-faded orange, olive green, dusty brown), soft grainy texture, simplified painterly
-shapes rather than photographic detail, slightly nostalgic and hazy feeling. Simplify
-facial features softly, do not render photographic skin texture. Plain warm-toned
-background. Portrait format matching a 10x15cm postcard print (aspect ratio 2:3),
-print-ready, high resolution.`,
+  vintage: `Reimagine the people in this photo as a vintage HAND-ILLUSTRATED artwork,
+in the style of a mid-20th-century children's book or travel poster illustration —
+this must look like a hand-drawn illustration, NEVER like a faded or filtered photo.
+Bold flat gouache-style color shapes, confident hand-drawn ink or brush outlines,
+charming simplified character design, warm nostalgic color palette (mustard yellow,
+teal, brick red, cream). Plain vintage-poster style background with a simple graphic
+shape (soft sunburst, simple warm color field). Simplify facial features charmingly,
+do not render photographic skin texture. Portrait format matching a 10x15cm postcard
+print (aspect ratio 2:3), print-ready, high resolution.`,
 
-  line_art: `Reimagine the people in this photo as a minimalist continuous single-line
-drawing: one uninterrupted thin black line forming the silhouette and key features of
-the people, no shading, no color fill (except perhaps one small solid color accent
-shape like a heart or flower), lots of plain white negative space. Elegant, refined,
-very simplified — abstract impression rather than a detailed likeness. Portrait format
+  feerique: `Reimagine the people in this photo as characters in a whimsical
+fairytale illustration: a soft glowing magical atmosphere, delicate sparkles and tiny
+stars, flowing dreamlike hair and clothing touched by fantasy (a subtle floral crown,
+fabric flowing as if in a gentle breeze), a warm enchanted color palette (lavender,
+blush pink, gold, deep emerald). Soft painterly rendering like a storybook
+illustration, not photorealistic — simplify facial features charmingly. Magical soft
+background with a hint of stars or soft forest light, no hard edges. Portrait format
 matching a 10x15cm postcard print (aspect ratio 2:3), print-ready, high resolution.`,
 
-  pop_art: `Reimagine the people in this photo as a bold pop-art portrait in the style
-of 1960s screen-print art: thick black outlines, flat halftone-dot shading, highly
-saturated contrasting colors (hot pink, bright yellow, electric blue, red), dramatic
-graphic simplification of facial features, plain bold solid-color background. This
-should look like a stylized pop-art poster, not a photo. Portrait format matching a
-10x15cm postcard print (aspect ratio 2:3), print-ready, high resolution.`,
+  royaume_africain: `Reimagine the people in this photo as noble royalty from a
+majestic African-inspired kingdom, rendered as a rich illustrative portrait, with
+dignity and elegance. Elaborate royal attire inspired by West and Central African
+royal traditions: bold geometric wax-print (ankara) patterns, intricate beadwork,
+gold jewelry, a richly patterned headwrap or beaded crown. Warm regal color palette
+(deep gold, royal purple, terracotta, emerald green, black). Illustrated painterly
+rendering, not photorealistic — simplify facial features charmingly like an editorial
+illustration, while keeping the person's general skin tone recognizable. Rich
+patterned or richly colored plain background evoking royal grandeur. Portrait format
+matching a 10x15cm postcard print (aspect ratio 2:3), print-ready, high resolution.`,
+
+  caricature_exageree: `Reimagine the people in this photo as a fun, exaggerated
+caricature portrait, in the classic hand-drawn caricature-artist style: playfully
+oversized heads on smaller simplified bodies, exaggerated but flattering and charming
+(never mean-spirited) facial features — a bigger nose, big expressive eyes, a big warm
+smile. Loose confident ink-and-color illustration, warm vibrant colors. This must look
+like a fairground caricature artist's fun sketch, full of personality and humor, not a
+realistic portrait. Plain simple background. Portrait format matching a 10x15cm
+postcard print (aspect ratio 2:3), print-ready, high resolution.`,
 };
 
 const DEFAULT_STYLE = 'watercolor';
