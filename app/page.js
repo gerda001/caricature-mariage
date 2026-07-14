@@ -5,6 +5,17 @@ import { useState, useRef } from 'react';
 const COUPLE_NAMES = 'Johan & Liz'; // <-- Changez ce nom
 const WEDDING_DATE = '18 Juin 2026'; // <-- Changez cette date
 
+// Les styles proposés aux invités. La clé (ex: 'watercolor') doit correspondre
+// exactement à une clé de STYLE_PROMPTS dans app/api/caricature/route.js.
+const STYLES = [
+  { key: 'watercolor', label: 'Aquarelle douce', emoji: '🎨' },
+  { key: 'ink_sketch', label: 'Croquis romantique', emoji: '✏️' },
+  { key: 'comic_color', label: 'BD colorée', emoji: '💥' },
+  { key: 'vintage', label: 'Vintage rétro', emoji: '📻' },
+  { key: 'line_art', label: 'Ligne continue', emoji: '➰' },
+  { key: 'pop_art', label: 'Pop art', emoji: '🌈' },
+];
+
 // Redimensionne et compresse la photo côté téléphone avant l'envoi,
 // pour éviter les erreurs "fichier trop volumineux" avec les photos
 // très haute résolution des iPhone récents.
@@ -47,6 +58,7 @@ function resizeImage(file, maxDimension = 1600, quality = 0.85) {
 export default function Home() {
   const [preview, setPreview] = useState(null);
   const [file, setFile] = useState(null);
+  const [style, setStyle] = useState('watercolor');
   const [status, setStatus] = useState('idle'); // idle | loading | done | error
   const [resultUrl, setResultUrl] = useState(null);
   const [errorMsg, setErrorMsg] = useState('');
@@ -69,6 +81,7 @@ export default function Home() {
       const compressed = await resizeImage(file);
       const formData = new FormData();
       formData.append('photo', compressed, 'photo.jpg');
+      formData.append('style', style);
       const res = await fetch('/api/caricature', {
         method: 'POST',
         body: formData,
@@ -134,7 +147,7 @@ export default function Home() {
         {COUPLE_NAMES}
       </h1>
       <p style={{ color: '#6b625c', fontSize: 15, marginBottom: 28 }}>
-        Prenez une photo et repartez avec votre portrait aquarelle souvenir ✨
+        Prenez une photo et repartez avec votre portrait souvenir ✨
       </p>
 
       {!preview && (
@@ -180,22 +193,65 @@ export default function Home() {
           />
 
           {status !== 'done' && (
-            <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
-              <button
-                onClick={reset}
-                style={secondaryBtn}
-                disabled={status === 'loading'}
-              >
-                Reprendre
-              </button>
-              <button
-                onClick={handleGenerate}
-                style={primaryBtn}
-                disabled={status === 'loading'}
-              >
-                {status === 'loading' ? 'Création en cours…' : 'Créer ma caricature'}
-              </button>
-            </div>
+            <>
+              <div style={{ marginBottom: 18, textAlign: 'left' }}>
+                <p
+                  style={{
+                    fontSize: 13,
+                    color: '#8a8078',
+                    marginBottom: 10,
+                    textAlign: 'center',
+                  }}
+                >
+                  Choisissez un style
+                </p>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(3, 1fr)',
+                    gap: 8,
+                  }}
+                >
+                  {STYLES.map((s) => (
+                    <button
+                      key={s.key}
+                      onClick={() => setStyle(s.key)}
+                      disabled={status === 'loading'}
+                      style={{
+                        background: style === s.key ? '#3a3532' : '#fffdfb',
+                        color: style === s.key ? '#fff' : '#3a3532',
+                        border: '1px solid #d8c9b0',
+                        borderRadius: 12,
+                        padding: '10px 4px',
+                        fontSize: 12,
+                        cursor: 'pointer',
+                        textAlign: 'center',
+                      }}
+                    >
+                      <div style={{ fontSize: 18 }}>{s.emoji}</div>
+                      {s.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+                <button
+                  onClick={reset}
+                  style={secondaryBtn}
+                  disabled={status === 'loading'}
+                >
+                  Reprendre
+                </button>
+                <button
+                  onClick={handleGenerate}
+                  style={primaryBtn}
+                  disabled={status === 'loading'}
+                >
+                  {status === 'loading' ? 'Création en cours…' : 'Créer ma caricature'}
+                </button>
+              </div>
+            </>
           )}
 
           {status === 'loading' && (
