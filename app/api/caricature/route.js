@@ -4,9 +4,10 @@ export const runtime = 'nodejs';
 export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
-// Le prompt qui définit le style : aquarelle douce, comme les illustrations
-// "Galentine's" et "boule à facettes" fournies par les mariés.
-const STYLE_PROMPT = `Reimagine the people in this photo as a loose, hand-painted watercolor
+// Chaque clé correspond à un style proposé aux invités sur la page d'accueil.
+// Pour changer un texte de style, modifiez juste la valeur ci-dessous.
+const STYLE_PROMPTS = {
+  watercolor: `Reimagine the people in this photo as a loose, hand-painted watercolor
 illustration, in the style of a modern wedding stationery artist. This must NOT look
 like a filtered photo — it must look like an artist looked at the photo once and then
 painted their impression of it from memory.
@@ -27,7 +28,49 @@ Style rules:
   goal is an artistic impression of the people, not a likeness-accurate rendering.
 
 Portrait format matching a 10x15cm postcard print (aspect ratio 2:3), print-ready,
-high resolution.`;
+high resolution.`,
+
+  ink_sketch: `Reimagine the people in this photo as a romantic hand-drawn ink sketch,
+in the style of a whimsical wedding save-the-date illustration: simple round heads,
+minimal dot eyes, a small curved smile, loose black ink outlines only (no shading, no
+color fill except a few small red heart doodles scattered around the drawing). Keep
+proportions simplified and slightly childlike/charming, not realistic. Plain white
+background. This must look like a quick, sweet pen doodle, not a detailed portrait.
+Portrait format matching a 10x15cm postcard print (aspect ratio 2:3), print-ready,
+high resolution.`,
+
+  comic_color: `Reimagine the people in this photo as a bold modern comic-book style
+caricature portrait: thick clean black outlines, flat cel-shaded coloring with 2-3
+tones per area, slightly exaggerated and friendly facial expressions, vibrant saturated
+colors. Simplify clothing into flat color shapes. Plain solid color background. Keep
+only the general hair color, skin tone and outfit colors recognizable. This should look
+like a fun modern caricature illustration, not a photo. Portrait format matching a
+10x15cm postcard print (aspect ratio 2:3), print-ready, high resolution.`,
+
+  vintage: `Reimagine the people in this photo as a vintage retro illustration from the
+1970s, in the style of an old faded postcard: muted desaturated colors (warm mustard,
+faded orange, olive green, dusty brown), soft grainy texture, simplified painterly
+shapes rather than photographic detail, slightly nostalgic and hazy feeling. Simplify
+facial features softly, do not render photographic skin texture. Plain warm-toned
+background. Portrait format matching a 10x15cm postcard print (aspect ratio 2:3),
+print-ready, high resolution.`,
+
+  line_art: `Reimagine the people in this photo as a minimalist continuous single-line
+drawing: one uninterrupted thin black line forming the silhouette and key features of
+the people, no shading, no color fill (except perhaps one small solid color accent
+shape like a heart or flower), lots of plain white negative space. Elegant, refined,
+very simplified — abstract impression rather than a detailed likeness. Portrait format
+matching a 10x15cm postcard print (aspect ratio 2:3), print-ready, high resolution.`,
+
+  pop_art: `Reimagine the people in this photo as a bold pop-art portrait in the style
+of 1960s screen-print art: thick black outlines, flat halftone-dot shading, highly
+saturated contrasting colors (hot pink, bright yellow, electric blue, red), dramatic
+graphic simplification of facial features, plain bold solid-color background. This
+should look like a stylized pop-art poster, not a photo. Portrait format matching a
+10x15cm postcard print (aspect ratio 2:3), print-ready, high resolution.`,
+};
+
+const DEFAULT_STYLE = 'watercolor';
 
 export async function POST(request) {
   try {
@@ -44,6 +87,10 @@ export async function POST(request) {
     if (!file) {
       return Response.json({ error: "Aucune photo reçue." }, { status: 400 });
     }
+
+    const requestedStyle = formData.get('style');
+    const stylePrompt =
+      STYLE_PROMPTS[requestedStyle] || STYLE_PROMPTS[DEFAULT_STYLE];
 
     const arrayBuffer = await file.arrayBuffer();
     const base64Image = Buffer.from(arrayBuffer).toString('base64');
@@ -64,7 +111,7 @@ export async function POST(request) {
           contents: [
             {
               parts: [
-                { text: STYLE_PROMPT },
+                { text: stylePrompt },
                 { inline_data: { mime_type: mimeType, data: base64Image } },
               ],
             },
