@@ -7,25 +7,35 @@ export const dynamic = 'force-dynamic';
 // Chaque clé correspond à un style proposé aux invités sur la page d'accueil.
 // Pour changer un texte de style, modifiez juste la valeur ci-dessous.
 const STYLE_PROMPTS = {
-  watercolor: `Reimagine the people in this photo as a loose, hand-painted watercolor
-illustration, in the style of a modern wedding stationery artist. This must NOT look
-like a filtered photo — it must look like an artist looked at the photo once and then
-painted their impression of it from memory.
+  watercolor: `Reimagine the people in this photo as a refined, elegant watercolor
+portrait, in the style of a high-end wedding stationery artist commissioned for a
+sophisticated invitation suite. This must NOT look like a filtered photo — it must
+look like a skilled watercolor artist studied the photo and painted an elegant
+interpretation of the scene.
 
 Style rules:
 - Simplify facial features into soft, minimal shapes: small dot or short-line eyes,
   a light suggestion of a nose, a simple curved mouth. Do not render realistic eyes,
   pores, wrinkles, or photographic skin texture.
-- Use loose, imprecise, imperfect brush strokes with visible watercolor bleed and
-  paper texture. Edges should be soft and slightly uneven, never crisp or vector-like.
-- Slightly exaggerate proportions in a charming way (slightly bigger head-to-body
-  ratio, simplified hands), like an editorial fashion illustration, not a portrait.
+- Use confident, refined brush strokes with visible watercolor pigment bleed and
+  paper texture — elegant and painterly, never sloppy or childish. Edges should be
+  soft, never crisp or vector-like.
+- Slightly and tastefully stylize proportions (a touch of editorial fashion-illustration
+  elegance), simplified hands, graceful posture.
 - Flatten and simplify clothing into a few solid color shapes rather than folds and
-  realistic fabric detail.
-- Warm pastel palette (blush pink, soft gold, sage green, dusty blue), plain soft
-  off-white background, no hard shadows.
+  realistic fabric detail, while keeping the garment's silhouette recognizable.
+- DO NOT reduce the background to a flat empty color. Instead, loosely paint a soft,
+  impressionistic watercolor suggestion of the real setting behind the people (keep
+  the general colors, light, and a few soft abstracted shapes from the actual
+  background of the photo — walls, curtains, furniture, outdoor scenery, etc.),
+  rendered as loose translucent washes that fade gently at the edges of the page.
+  The background should feel atmospheric and elegant, never cluttered or literal.
+- Sophisticated, slightly muted color palette (dusty rose, champagne gold, sage green,
+  soft ivory, a touch of deep burgundy or navy for contrast) rather than bright pastel
+  candy colors.
 - Keep only the general hair color, skin tone, and outfit colors recognizable — the
-  goal is an artistic impression of the people, not a likeness-accurate rendering.
+  goal is an elegant artistic impression of the people and their setting, not a
+  likeness-accurate rendering.
 
 Portrait format matching a 10x15cm postcard print (aspect ratio 2:3), print-ready,
 high resolution.`,
@@ -89,6 +99,17 @@ postcard print (aspect ratio 2:3), print-ready, high resolution.`,
 
 const DEFAULT_STYLE = 'watercolor';
 
+// Consigne appliquée à TOUS les styles : peu importe le style artistique choisi,
+// les invités doivent rester reconnaissables (par eux-mêmes et par les autres).
+const RECOGNIZABILITY_SUFFIX = `
+
+Important: despite the stylization, the people must remain clearly recognizable as
+themselves and as the specific individuals in the photo — this is a keepsake for a
+wedding, not an anonymous illustration. Accurately preserve: each person's actual hair
+color and hairstyle, actual skin tone, and the actual colors and general design of the
+clothing/outfits they are wearing in the photo. Do not change outfit colors, do not
+invent different clothing, and do not make the people generic or interchangeable.`;
+
 export async function POST(request) {
   try {
     const apiKey = process.env.GEMINI_API_KEY;
@@ -107,7 +128,8 @@ export async function POST(request) {
 
     const requestedStyle = formData.get('style');
     const stylePrompt =
-      STYLE_PROMPTS[requestedStyle] || STYLE_PROMPTS[DEFAULT_STYLE];
+      (STYLE_PROMPTS[requestedStyle] || STYLE_PROMPTS[DEFAULT_STYLE]) +
+      RECOGNIZABILITY_SUFFIX;
 
     const arrayBuffer = await file.arrayBuffer();
     const base64Image = Buffer.from(arrayBuffer).toString('base64');
